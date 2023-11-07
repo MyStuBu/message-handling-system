@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  message-handling-application:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: message-handling-application
+    ports:
+      - "8000:3000"
+    volumes:
+      - .:/app
+    environment:
+      - NODE_ENV=development
