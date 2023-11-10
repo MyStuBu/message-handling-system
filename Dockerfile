@@ -2,7 +2,7 @@
 FROM node:20-alpine
 
 # Set the working directory in the container
-WORKDIR /src
+WORKDIR /api
 
 # Copy the local requirements file to the container
 COPY package*.json ./
@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copy the local application code to the container
-COPY ./src /src
+COPY ./src /api
 
 # Command to run the application
 CMD ["npm", "run", "start"]
