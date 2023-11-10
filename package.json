@@ -2,7 +2,7 @@
   "name": "message-handling-application",
   "version": "1.0.0",
   "description": "",
-  "main": "/src/index.ts",
+  "main": "/src/app/index.ts",
   "scripts": {
     "start": "PORT=8080 nodemon"
   },
