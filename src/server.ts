@@ -1,10 +1,26 @@
+import dotenv from 'dotenv';
 import app from './app'
 import http from 'http';
+import {initializeDatabase} from './database/dbConnection';
 
-const port = process.env.PORT || '8080'
+dotenv.config()
 
-const server = http.createServer((app))
+const startServer = async () => {
+    try {
+        // Initialize the database
+        await initializeDatabase();
 
-server.listen(8080, () => {
-    console.log(`Server running on ${port}`)
-})
+        // Create and start the server
+        const server = http.createServer(app);
+        const port = process.env.PORT || '8080';
+
+        server.listen(port, () => {
+            console.log(`Server running on ${port}`);
+        });
+    } catch (error) {
+        console.error('Error during server startup:', error);
+    }
+};
+
+// Start the server
+startServer();

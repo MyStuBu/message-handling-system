@@ -1,10 +1,13 @@
-import express from 'express';
+import express, {Express} from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
-import cors from 'cors'
+import cors from 'cors';
 
-const app = express()
+import User from '../models/User'
+import {sequelize} from "../database/dbConnection";
+
+const app: Express = express()
 
 app.use(cors({
     credentials: true,
