@@ -2,20 +2,29 @@
   "name": "message-handling-application",
   "version": "1.0.0",
   "description": "",
-  "main": "/src/app/index.js",
+  "main": "/src/index.ts",
   "scripts": {
-    "start": "PORT=80 node src/server.js",
-    "dev": "PORT=81 nodemon src/server.js"
+    "start": "PORT=8080 nodemon"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "@types/body-parser": "^1.19.5",
+    "@types/compression": "^1.7.5",
+    "@types/cookie-parser": "^1.4.6",
+    "@types/cors": "^2.8.16",
+    "@types/express": "^4.17.21",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
   }
 }

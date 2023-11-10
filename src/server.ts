@@ -1,0 +1,10 @@
+import app from './index'
+import http from 'http';
+
+const port = process.env.PORT || '8080'
+
+const server = http.createServer((app))
+
+server.listen(8080, () => {
+    console.log(`Server running on ${port}`)
+})
