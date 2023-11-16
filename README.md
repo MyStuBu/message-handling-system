@@ -1,33 +1,42 @@
 # message-handling-system
 
-Follow these steps to set up and run the chatbot sandbox on your local environment using Docker Desktop:
+Follow these steps to set up and run the Message Handling System on your local environment using Docker Desktop:
 
 ### 1. Download the Repository </br></br>
 
-### 2. Start the Container with Docker Compose
+### A. Start the Development Container with Docker Compose
 
 * Open a terminal.
 * Navigate to the project's root directory.
-* Run the following command to start Docker Compose.
+* Run the following command to start Docker Compose for development.
 
 ```shell
-docker-compose up -d 
+make development 
 ``` 
 
-### 3. Get the ID of the Container
+### B. Start the Production Container with Docker Compose
+* Open a terminal.
+* Navigate to the project's root directory.
+* Run the following command to start Docker Compose for development.
 
-Find the CONTAINER ID of the container you've just built using docker ps.
+```shell
+make deploy 
+``` 
+
+### 2. Get the ID of the Container
+
+Find the CONTAINER ID of the container you've just built using the docker ps command.
 
 ```shell
 docker ps
 ```
 
-### 4. Enter the Container
+### 3. Enter the Container
 
-Use the container ID to enter into the container
+Use the container ID to enter into the container with the exec command.
 
 ```shell
-docker exec -it {container id} /bin/sh</br></br>
+docker exec -it {container id} /bin/sh
 ```
 
 [//]: # (2. Configure Environment Variables)
