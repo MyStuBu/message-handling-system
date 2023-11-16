@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     "module": "NodeNext",
-    "moduleResolution": "node",
     "baseUrl": "src",
-    "outDir": "dist",
+    "outDir": "./dist",
     "sourceMap": true,
     "noImplicitAny": true,
     "strict": true,
+    "allowArbitraryExtensions": true
   },
   "include": ["src/**/*"]
 }

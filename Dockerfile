@@ -1,17 +1,21 @@
-# Use an official Node.js runtime as a parent image
-FROM node:20-alpine
-
-# Set the working directory in the container
-WORKDIR /api
-
-# Copy the local requirements file to the container
+# Build Stage
+FROM node:20-alpine AS build
+WORKDIR /app
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
+COPY . .
 
-# Copy the local application code to the container
-COPY ./src /api
+# Transpile Stage
+FROM node:20-alpine AS transpile
+WORKDIR /app
+COPY --from=build /app ./
+RUN npx tsc -p ./tsconfig.json
 
-# Command to run the application
-CMD ["npm", "run", "start"]
+# Runtime Stage
+FROM node:20-alpine AS runtime
+WORKDIR /app
+COPY --from=transpile /app ./
+
+# Custom Entrypoint Script
+COPY entrypoint.sh /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
