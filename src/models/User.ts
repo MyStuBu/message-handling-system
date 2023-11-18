@@ -1,14 +1,16 @@
 import {DataTypes, Model} from "sequelize";
-import {sequelize} from "../database/dbConnection";
+import {sequelize} from "../database/sequalize";
+import Conversation from "./Conversation";
 
 class User extends Model {
-    declare id: number
+    declare id: bigint
     declare username: string
+    declare conversations: Array<Conversation>
 }
 
 User.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         autoIncrement: true,
         primaryKey: true
     },
@@ -16,6 +18,7 @@ User.init({
         type: DataTypes.STRING,
         allowNull: false
     },
+
 }, {
     sequelize,
     modelName: 'User'
