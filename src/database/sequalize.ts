@@ -14,12 +14,13 @@ if (!dialect) {
 let sequelizeOptions: {host: string, dialect: Dialect, storage?: string} = {
     host: host,
     dialect: dialect,
+    storage: undefined
 };
 
 if (dialect === 'sqlite') {
     sequelizeOptions = {
         ...sequelizeOptions,
-        storage: path.join(__dirname, "../storage/sqlite/database.sqlite"),
+        storage: path.join(__dirname, "../../sqlite/database.sqlite"),
     };
 }
 
@@ -29,6 +30,10 @@ const initializeDatabase = async (): Promise<void> => {
     try {
         await sequelize.authenticate();
         console.log('Connection has been established successfully.');
+        // require('../models/User');
+        // require('../models/Conversation');
+        // require('../models/Associations');
+        // await sequelize.sync()
         // console.log('Database synchronized.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
