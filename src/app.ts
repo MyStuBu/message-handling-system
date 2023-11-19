@@ -8,6 +8,7 @@ import cors from 'cors';
 import UserRouter from './routers/UserRouter'
 import { initializeDatabase } from './database/sequalize';
 import ConversationRouter from "./routers/ConversationRouter";
+import AuthRouter from "./routers/AuthRouter";
 
 dotenv.config();
 
@@ -21,8 +22,10 @@ app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
 
-app.use('/user', UserRouter)
+app.use('/auth', AuthRouter);
+app.use('/user', UserRouter);
 app.use('/conversation', ConversationRouter);
+
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
