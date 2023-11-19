@@ -30,23 +30,6 @@ const getUserById = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
-// Create a new user
-const createUser = async (req: Request, res: Response): Promise<void> => {
-    const {username} = req.body;
-
-    if (username) {
-        try {
-            const newUser = await User.create({username});
-            res.status(201).json(newUser);
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({message: 'Internal Server Error'});
-        }
-    } else {
-        res.status(400).json({message: 'Username is required'});
-    }
-};
-
 // Update a user by ID
 const updateUserById = async (req: Request, res: Response): Promise<void> => {
     const userId = parseInt(req.params.id);
@@ -88,7 +71,6 @@ const deleteUserById = async (req: Request, res: Response): Promise<void> => {
 export default {
     getAllUsers,
     getUserById,
-    createUser,
     updateUserById,
     deleteUserById,
 };

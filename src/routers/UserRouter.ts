@@ -5,8 +5,7 @@ import UserController from '../controllers/UserController'
 
 // Routes
 UserRouter.get('/', UserController.getAllUsers);
-UserRouter.get('/:id', UserController.getUserById);
-UserRouter.post('/', UserController.createUser);
+UserRouter.get('/:id', authMiddleware, UserController.getUserById);
 UserRouter.put('/:id', UserController.updateUserById);
 UserRouter.delete('/:id', UserController.deleteUserById);
 
