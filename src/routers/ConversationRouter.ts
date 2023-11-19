@@ -1,6 +1,6 @@
-import express from "express";
+import express, {Router} from "express";
 
-const ConversationRouter = express.Router();
+const ConversationRouter: Router = express.Router();
 import ConversationController from '../controllers/ConversationController'
 
 // Routes
