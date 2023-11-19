@@ -12,7 +12,7 @@ Conversation.init({
         autoIncrement: true,
         primaryKey: true
     },
-    username: {
+    title: {
         type: DataTypes.STRING,
         allowNull: false
     },
