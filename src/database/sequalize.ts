@@ -30,11 +30,11 @@ const initializeDatabase = async (): Promise<void> => {
     try {
         await sequelize.authenticate();
         console.log('Connection has been established successfully.');
-        // require('../models/User');
-        // require('../models/Conversation');
-        // require('../models/Associations');
-        // await sequelize.sync()
-        // console.log('Database synchronized.');
+        require('../models/User');
+        require('../models/Conversation');
+        require('../models/Associations');
+        await sequelize.sync()
+        console.log('Database synchronized.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
     }
