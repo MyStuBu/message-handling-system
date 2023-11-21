@@ -7,7 +7,7 @@ import authMiddleware from "../middleware/AuthMiddleware";
 // Routes
 UserRouter.get('/', UserController.getAllUsers);
 UserRouter.get('/:id', authMiddleware, UserController.getUserById);
-UserRouter.put('/:id', UserController.updateUserById);
-UserRouter.delete('/:id', UserController.deleteUserById);
+UserRouter.put('/:id', authMiddleware, UserController.updateUserById);
+UserRouter.delete('/:id', authMiddleware, UserController.deleteUserById);
 
 export default UserRouter;
