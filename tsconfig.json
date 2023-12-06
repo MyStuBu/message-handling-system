@@ -6,7 +6,10 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "strict": true,
-    "allowArbitraryExtensions": true
+    "allowArbitraryExtensions": true,
+    "esModuleInterop": true,
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }

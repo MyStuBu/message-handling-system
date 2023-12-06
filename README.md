@@ -11,7 +11,7 @@ Follow these steps to set up and run the Message Handling System on your local e
 * Run the following command to start Docker Compose for development.
 
 ```shell
-make development 
+make dev
 ``` 
 
 ### B. Start the Production Container with Docker Compose
@@ -20,7 +20,7 @@ make development
 * Run the following command to start Docker Compose for development.
 
 ```shell
-make deploy 
+make prod 
 ``` 
 
 ### 2. Get the ID of the Container
@@ -38,7 +38,3 @@ Use the container ID to enter into the container with the exec command.
 ```shell
 docker exec -it {container id} /bin/sh
 ```
-
-[//]: # (2. Configure Environment Variables)
-
-[//]: # (   Copy the provided .env.example file and rename it to .env.)
