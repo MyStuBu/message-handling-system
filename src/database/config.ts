@@ -1,6 +1,5 @@
 import path from "path";
 
-
 export default {
     "development": {
         "username": process.env.DB_USER || '',
