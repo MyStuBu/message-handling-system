@@ -1,30 +1,45 @@
 import {Dialect, Sequelize} from "sequelize";
-import path from "path";
+import * as process from "process";
+import config from './config'
 
-const db: string = process.env.DB_NAME || '';
-const username: string = process.env.DB_USER || '';
-const password: string = process.env.DB_PASSWORD || '';
-const host: string = process.env.DB_HOST || '';
-const dialect: Dialect = process.env.DB_DIALECT as Dialect || 'sqlite';
+let databaseConfig: {
+    username: string,
+    password: string,
+    database: string,
+    host: string,
+    dialect: string,
+    storage: string | undefined
+};
+
+switch (process.env.NODE_ENV) {
+    case 'development':
+        databaseConfig = config.development;
+        break;
+    case 'test':
+        databaseConfig = config.test;
+        break;
+    default:
+        databaseConfig = config.production;
+}
+
+const database: string = databaseConfig.database;
+const username: string = databaseConfig.username;
+const password: string = databaseConfig.password;
+const host: string = databaseConfig.host;
+const dialect: Dialect = databaseConfig.dialect as Dialect;
+const storage: string | undefined = databaseConfig.storage;
 
 if (!dialect) {
     throw new Error("Incorrect DB_DIALECT in .env");
 }
 
-let sequelizeOptions: {host: string, dialect: Dialect, storage?: string} = {
+let sequelizeOptions: { host: string, dialect: Dialect, storage?: string } = {
     host: host,
     dialect: dialect,
-    storage: undefined
+    storage: storage
 };
 
-if (dialect === 'sqlite') {
-    sequelizeOptions = {
-        ...sequelizeOptions,
-        storage: path.join(__dirname, "../../sqlite/database.sqlite"),
-    };
-}
-
-const sequelize: Sequelize = new Sequelize(db, username, password, sequelizeOptions);
+const sequelize: Sequelize = new Sequelize(database, username, password, sequelizeOptions);
 
 const initializeDatabase = async (): Promise<void> => {
     try {
