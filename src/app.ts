@@ -5,47 +5,66 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
-import UserRouter from './routers/UserRouter'
 import { initializeDatabase } from './database/sequalize';
-import ConversationRouter from "./routers/ConversationRouter";
-import AuthRouter from "./routers/AuthRouter";
+import UserRouter from './routers/UserRouter';
+import ConversationRouter from './routers/ConversationRouter';
+import AuthRouter from './routers/AuthRouter';
+import * as process from 'process';
 
 dotenv.config();
 
 const app: Express = express();
+const server = http.createServer(app);
 
-app.use(cors({
-    credentials: true,
-}));
+const configureMiddlewares = async (): Promise<void> => {
+    app.use(cors({ credentials: true }));
+    app.use(compression());
+    app.use(cookieParser());
+    app.use(bodyParser.json());
+};
 
-app.use(compression());
-app.use(cookieParser());
-app.use(bodyParser.json());
+const configureRoutes = async (): Promise<void> => {
+    app.use('/auth', AuthRouter);
+    app.use('/user', UserRouter);
+    app.use('/conversation', ConversationRouter);
+    app.get('/', (req, res) => {
+        res.send('Hello World!');
+    });
+};
 
-app.use('/auth', AuthRouter);
-app.use('/user', UserRouter);
-app.use('/conversation', ConversationRouter);
-
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
-
-const startServer = async (): Promise<void> => {
+const initialize = async (): Promise<void> => {
     try {
         // Initialize the database
         await initializeDatabase();
-
-        // Create and start the server
-        const server = http.createServer(app);
-        const port: string = process.env.PORT || '8080';
-
-        server.listen(port, ():void => {
-            console.log(`Server running on ${port}`);
-        });
     } catch (error) {
-        console.error('Error during server startup:', error);
+        console.error('Error during database initialization:', error);
+        throw error;
     }
 };
 
-// Start the server
-startServer();
+const startServer = (): void => {
+    const port: string = process.env.PORT || '8080';
+
+    server.listen(port, (): void => {
+        console.log(`Server running on ${port}`);
+    });
+};
+
+const start = async (): Promise<void> => {
+    await configureMiddlewares();
+    await configureRoutes();
+
+    try {
+        if (process.env.NODE_ENV !== 'test') {
+            await initialize();
+            startServer();
+        }
+    } catch (error) {
+        console.error('Error during server startup:', error);
+        process.exit(1); // Exit the process with an error code
+    }
+};
+
+start();
+
+export default app;
