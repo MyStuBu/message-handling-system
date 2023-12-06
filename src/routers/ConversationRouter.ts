@@ -4,6 +4,6 @@ const ConversationRouter: Router = express.Router();
 import ConversationController from '../controllers/ConversationController'
 
 // Routes
-ConversationRouter.post('/', ConversationController.chat);
+ConversationRouter.post('/chat', ConversationController.llmCommunication);
 
 export default ConversationRouter;
