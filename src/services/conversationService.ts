@@ -1,16 +1,6 @@
 import axios, {AxiosRequestConfig} from 'axios';
 import * as process from 'process';
 
-interface ApiResponse {
-    id: string;
-    status: 'IN_QUEUE' | 'IN_PROGRESS' | 'COMPLETED';
-    delayTime?: number;
-    executionTime?: number;
-    gpu?: string;
-    input?: { prompt: string };
-    output?: { answer: string };
-}
-
 const extractUserMessage = (body: any): { message: string } => {
     return {message: body.message}
 };
@@ -66,7 +56,6 @@ const receiveMessageFromLLM = async (axiosConfig: AxiosRequestConfig): Promise<s
         let count = 0;
         do {
             response = await axios.request(axiosConfig);
-            console.log(response.data);
 
             if (response.data.status !== "COMPLETED") {
                 await new Promise(resolve => setTimeout(resolve, 10000));
