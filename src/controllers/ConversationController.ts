@@ -15,12 +15,10 @@ const llmCommunication = async (req: Request, res: Response): Promise<any> => {
             const jobId = await conversationService.sendMessageToLLM(sendMessageConfig);
 
             const receiveMessageConfig = conversationService.prepareReceiveMessageFromLLM(jobId);
-            const response = conversationService.receiveMessageFromLLM(receiveMessageConfig);
-
-            console.log(response);
+            const llmResponse = await conversationService.receiveMessageFromLLM(receiveMessageConfig);
 
             res.status(200).json({
-                message: response,
+                message: llmResponse,
             });
 
         } catch
