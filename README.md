@@ -17,7 +17,7 @@ make dev
 ### B. Start the Production Container with Docker Compose
 * Open a terminal.
 * Navigate to the project's root directory.
-* Run the following command to start Docker Compose for development.
+* Run the following command to start Docker Compose for production.
 
 ```shell
 make prod 
