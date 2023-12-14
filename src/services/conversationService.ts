@@ -59,7 +59,7 @@ const receiveMessageFromLLM = async (axiosConfig: AxiosRequestConfig): Promise<s
 
             if (response.data.status !== "COMPLETED") {
                 await new Promise(resolve => setTimeout(resolve, 10000));
-                console.log(`Attempts to retrieve message from LLM: ${count}`);
+                console.log(`Attempts to retrieve message from LLM: ${count++}`);
             }
         } while (response.data.status !== "COMPLETED");
 
