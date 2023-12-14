@@ -51,18 +51,14 @@ describe('conversationService', () => {
 
             // Assert
             expect(result).toEqual({
-                    "method": "post",
-                    "url": "https://api.runpod.ai/v2/mock_pod_id/run",
-                    "headers": {
+                    method: "post",
+                    url: "https://api.runpod.ai/v2/mock_pod_id/run",
+                    headers: {
                         "Content-Type": "application/json",
                         "Authorization": "Bearer mock_api_key",
-                        "Cookie": "__cflb=02DiuEDmJ1gNRaog7BudgwPAUzGWrv7Sj1qv1GCpsuPqn"
                     },
-                    "data": {
-                        "input": {
-                            "question": "This is the question"
-                        }
-                    }
+                    maxBodyLength: Infinity,
+                    data: "{\"input\":{\"question\":\"This is the question\"}}"
                 }
             );
         });
@@ -78,11 +74,11 @@ describe('conversationService', () => {
 
             // Assert
             expect(result).toEqual({
-                method: 'POST',
+                method: 'get',
+                maxBodyLength: Infinity,
                 url: `https://api.runpod.ai/v2/mock_pod_id/status/${jobId}`,
                 headers: {
                     'Authorization': `Bearer mock_api_key`,
-                    'Cookie': "__cflb=02DiuEDmJ1gNRaog7BudgwPAUzGWrv7Sj1qv1GCpsuPqn",
                 },
             });
         });

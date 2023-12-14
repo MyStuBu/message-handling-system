@@ -29,6 +29,3 @@ RUN npm ci --only=production
 
 # Switch to a non-root user
 USER node
-
-# Specify the command to run your application
-CMD ["node", "app/app.js"]
