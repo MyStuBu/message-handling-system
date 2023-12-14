@@ -13,6 +13,7 @@ services:
 
   # Production service
   production:
+    image: quitzchell/message-handling-system:1.1
     build:
       context: .
       dockerfile: Dockerfile
