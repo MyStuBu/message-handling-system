@@ -28,7 +28,7 @@ const configureRoutes = async (): Promise<void> => {
     app.use('/user', UserRouter);
     app.use('/conversation', ConversationRouter);
     app.get('/', (req, res) => {
-        res.json('Hello from the Study Buddy backend');
+        res.json({message: 'Hello from the Study Buddy backend'});
     });
 };
 
