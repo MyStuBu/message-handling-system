@@ -1,11 +1,11 @@
 import dotenv from 'dotenv';
-import express, { Express } from 'express';
+import express, {Express} from 'express';
 import http from 'http';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
-import { initializeDatabase } from './database/sequalize';
+import {initializeDatabase} from './database/sequalize';
 import UserRouter from './routers/UserRouter';
 import ConversationRouter from './routers/ConversationRouter';
 import AuthRouter from './routers/AuthRouter';
@@ -17,7 +17,7 @@ const app: Express = express();
 const server = http.createServer(app);
 
 const configureMiddlewares = async (): Promise<void> => {
-    app.use(cors({ credentials: true }));
+    app.use(cors({credentials: true}));
     app.use(compression());
     app.use(cookieParser());
     app.use(bodyParser.json());
@@ -28,7 +28,10 @@ const configureRoutes = async (): Promise<void> => {
     app.use('/user', UserRouter);
     app.use('/conversation', ConversationRouter);
     app.get('/', (req, res) => {
-        res.json({message: 'Hello from the Study Buddy backend'});
+        res.json({
+            message: 'Hello from the Study Buddy backend. ' +
+                'I have added extra text to see if the continues deployment works'
+        });
     });
 };
 
