@@ -21,7 +21,8 @@ RUN mkdir /usr/src/app/sqlite && chown -R node:node /usr/src/app/sqlite
 COPY --from=production-transpile /usr/src/dist/ ./app/
 
 # Set environment variables
-ENV NODE_ENV production
+ENV NODE_ENV=production \
+    PORT=80
 
 # Install production dependencies
 COPY package*.json ./
