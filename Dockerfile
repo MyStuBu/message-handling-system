@@ -32,3 +32,5 @@ RUN npm ci --only=production
 USER node
 
 EXPOSE 80
+
+CMD ["node", "app/app.js"]
