@@ -29,3 +29,5 @@ RUN npm ci --only=production
 
 # Switch to a non-root user
 USER node
+
+EXPOSE 8080
