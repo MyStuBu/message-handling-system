@@ -22,7 +22,7 @@ COPY --from=production-transpile /usr/src/dist/ ./app/
 
 # Set environment variables
 ENV NODE_ENV=production \
-    PORT=8080
+    PORT=80
 
 # Install production dependencies
 COPY package*.json ./
@@ -31,6 +31,6 @@ RUN npm ci --only=production
 # Switch to a non-root user
 USER node
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD ["node", "app/app.js"]
