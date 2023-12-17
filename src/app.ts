@@ -29,8 +29,7 @@ const configureRoutes = async (): Promise<void> => {
     app.use('/conversation', ConversationRouter);
     app.get('/', (req, res) => {
         res.json({
-            message: 'Hello from the Study Buddy backend. ' +
-                'I have added extra text to see if the continues deployment works'
+            message: 'Hello from the Study Buddy backend.'
         });
     });
 };
