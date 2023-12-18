@@ -9,9 +9,3 @@ describe('GET /', () => {
         expect(response.status).toBe(200);
     });
 });
-
-describe('Fail', () => {
-    it('should fail', () => {
-      expect(false).toEqual(true)
-    })
-})
