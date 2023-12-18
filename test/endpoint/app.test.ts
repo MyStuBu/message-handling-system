@@ -7,6 +7,6 @@ describe('GET /', () => {
     it('should return a "Hello World!" message', async () => {
         const response = await request.get('/');
         expect(response.status).toBe(200);
-        expect(response.body).toBe({message: 'Hello from the Study Buddy backend.'});
+        expect(response.body).toEqual({message: 'Hello from the Study Buddy backend.'});
     });
 });
