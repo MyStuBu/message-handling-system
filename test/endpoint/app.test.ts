@@ -10,3 +10,9 @@ describe('GET /', () => {
         expect(response.body).toEqual({message: 'Hello from the Study Buddy backend.'});
     });
 });
+
+describe('Fail', () => {
+    it('should fail', () => {
+      expect(false).toEqual(true)
+    })
+})
