@@ -2,27 +2,49 @@ name: Continuous Integration
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: ["develop"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [18.x, 20.x]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
-      if: success() # Block the merge if the tests fail
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build --if-present
+
+      - name: Run tests
+        id: test
+        run: npm test
+
+      - name: Set test status
+        if: always()
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const conclusion = '${{ steps.test.outcome }}';
+            const status = conclusion === 'success' ? 'success' : 'failure';
+            github.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Test Checks',
+              head_sha: context.sha,
+              status: status,
+              conclusion: conclusion,
+            });
