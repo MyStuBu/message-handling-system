@@ -17,7 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: CI ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
@@ -32,19 +32,3 @@ jobs:
       - name: Run tests
         id: test
         run: npm test
-
-      - name: Set test status
-        if: always()
-        uses: actions/github-script@v5
-        with:
-          script: |
-            const conclusion = '${{ steps.test.outcome }}';
-            const status = conclusion === 'success' ? 'success' : 'failure';
-            github.checks.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              name: 'Test Checks',
-              head_sha: context.sha,
-              status: status,
-              conclusion: conclusion,
-            });
