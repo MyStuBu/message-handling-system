@@ -3,18 +3,9 @@ import User from '../models/User';
 import userService from "../services/userService";
 import authService from "../services/authService";
 
-const registerUser = async (req: Request, res: Response): Promise<void> => {
+const authUser = async (req: Request, res: Response): Promise<void> => {
     try {
-        const {username, password} = authService.extractUserCredentials(req.body);
-        if (!username || !password) {
-            res.status(400).json({error: 'invalid input'})
-        }
-        const hashPassword: string = await authService.hashUserPassword(password);
-        const user: User = await userService.createUserInDatabase(username, hashPassword)
-        res.status(201).json(user);
-    } catch (error) {
-        console.error('Error in registerUser:', error);
-        res.status(500).json({error: 'Internal Server Error'});
+        fetch()
     }
 }
 
@@ -41,6 +32,6 @@ const loginUser = async (req: Request, res: Response): Promise<any> => {
 
 
 export default {
-    registerUser,
+    authUser,
     loginUser
 }
