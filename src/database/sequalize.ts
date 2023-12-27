@@ -33,7 +33,7 @@ if (!dialect) {
     throw new Error("Incorrect DB_DIALECT in .env");
 }
 
-let sequelizeOptions: { host: string, dialect: Dialect, storage?: string } = {
+const sequelizeOptions: { host: string, dialect: Dialect, storage?: string } = {
     host: host,
     dialect: dialect,
     storage: storage
