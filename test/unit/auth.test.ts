@@ -1,5 +1,7 @@
-import authService from "../../src/services/authService";
-import {getMockReq} from '@jest-mock/express'
+import { getMockReq } from '@jest-mock/express';
+import AuthService from '../../src/services/AuthService';
+
+const authService: AuthService = new AuthService();
 
 describe('AuthService', () => {
     describe('extractUserCredentials', () => {
@@ -24,7 +26,7 @@ describe('AuthService', () => {
 
         it('should return an object with undefined for missing credentials', () => {
             // Arrange
-            const requestWithoutCredentials = getMockReq({body: {},});
+            const requestWithoutCredentials = getMockReq({ body: {} });
 
             // Act
             const result = authService.extractUserCredentials(requestWithoutCredentials.body);
@@ -38,9 +40,9 @@ describe('AuthService', () => {
     });
 
     describe('hashUserPassword', () => {
-        it('should has a password correctly', async () => {
+        it('should hash a password correctly', async () => {
             // Arrange
-            const mockPassword = 'mockedPassword'
+            const mockPassword = 'mockedPassword';
 
             // Act
             const result = await authService.hashUserPassword(mockPassword);
@@ -63,7 +65,6 @@ describe('AuthService', () => {
             expect(result).toBe(true);
         });
 
-        // Test case 2: Validating an incorrect password
         it('should not validate an incorrect password', async () => {
             // Arrange
             const mockPassword = 'testPassword';
@@ -75,5 +76,5 @@ describe('AuthService', () => {
             // Assert
             expect(result).toBe(false);
         });
-    })
+    });
 });

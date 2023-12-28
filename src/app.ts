@@ -34,9 +34,9 @@ export default class StudyBuddyServer {
     }
 
     private configureRoutes(): void {
-        this.app.use('/auth', AuthRouter);
-        this.app.use('/user', UserRouter);
-        this.app.use('/conversation', ConversationRouter);
+        this.app.use('/auth', new AuthRouter().getRouter());
+        this.app.use('/user', new UserRouter().getRouter());
+        this.app.use('/conversation', new ConversationRouter().getRouter());
         this.app.get('/', (req, res): void => {
             res.json({message: 'Hello from the Study Buddy backend.'});
         });
