@@ -1,6 +1,17 @@
 import path from "path";
 
-export default {
+interface Configurations {
+    [key: string]: {
+        username: string;
+        password: string;
+        database: string;
+        host: string;
+        dialect: string;
+        storage: string;
+    };
+}
+
+const configurations: Configurations = {
     "development": {
         "username": process.env.DB_USER || '',
         "password": process.env.DB_PASSWORD || '',
@@ -25,5 +36,14 @@ export default {
         "dialect": process.env.DB_DIALECT || 'sqlite',
         "storage":  path.join(__dirname, "../../sqlite/database.sqlite")
     }
-}
+};
 
+const getDatabaseConfig = (env: string): Configurations[string] => {
+    if (!(env in configurations)) {
+        throw new Error(`Environment "${env}" not found in configurations.`);
+    }
+
+    return configurations[env];
+};
+
+export default getDatabaseConfig;

@@ -1,7 +1,13 @@
 import supertest from 'supertest';
-import app from '../../src/app';
+import StudyBuddyServer from '../../src/app';
 
-const request = supertest(app);
+const studyBuddyServer = new StudyBuddyServer();
+const request = supertest(studyBuddyServer.app);
+
+beforeAll(async () => {
+    // Start the server before running tests
+    await studyBuddyServer.start();
+});
 
 describe('GET /', () => {
     it('should return a "Hello World!" message', async () => {
