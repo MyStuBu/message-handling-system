@@ -37,10 +37,8 @@ export default class StudyBuddyServer {
         this.app.use('/auth', AuthRouter);
         this.app.use('/user', UserRouter);
         this.app.use('/conversation', ConversationRouter);
-        this.app.get('/', (req, res) => {
-            res.json({
-                message: 'Hello from the Study Buddy backend.',
-            });
+        this.app.get('/', (req, res): void => {
+            res.json({message: 'Hello from the Study Buddy backend.'});
         });
     }
 
