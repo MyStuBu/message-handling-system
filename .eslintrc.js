@@ -6,6 +6,6 @@ module.exports = {
         'plugin:@typescript-eslint/recommended'
     ],
     rules: {
-        // Additional rules or overrides can be added here
+        '@typescript-eslint/no-explicit-any': 'off',
     }
 };

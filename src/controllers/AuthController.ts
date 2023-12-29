@@ -20,7 +20,7 @@ class AuthController {
             throw new Error('Missing required environment variables.');
         }
 
-        const redirectUrl = this.authService.createRedirectUrl(auth_url, client_id, redirect_uri);
+        const redirectUrl = this.authService.createRedirectUrl(this.config);
 
         res.redirect(redirectUrl);
     }
