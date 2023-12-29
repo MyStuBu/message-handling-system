@@ -15,10 +15,7 @@ class AuthController {
         this.config = getOAuth2Config('fhict')
     }
 
-    public authenticate = (req: Request, res: Response): void => {
-        const {auth_url, client_id, redirect_uri} = getOAuth2Config('fhict')
-
-        if (!auth_url || !client_id || !redirect_uri) {
+    public initAuthentication = (req: Request, res: Response): void => {
         if (!this.config.authUrl || !this.config.clientId || !this.config.redirectUri) {
             throw new Error('Missing required environment variables.');
         }
