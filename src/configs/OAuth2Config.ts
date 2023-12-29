@@ -1,18 +1,25 @@
 import process from "process";
 
+export interface OAuth2Object {
+    authUrl: string;
+    clientId: string;
+    clientSecret: string;
+    redirectUri: string;
+    tokenUrl: string;
+}
+
 interface OAuth2Config {
-    [key: string]: {
-        auth_url: string;
-        client_id: string;
-        redirect_uri: string;
-    }
+    [key: string]:
+        OAuth2Object
 }
 
 const configurations: OAuth2Config = {
     "fhict": {
-        "auth_url": process.env.FONTYS_AUTH_URL || '',
-        "client_id": process.env.FONTYS_CLIENT_ID || '',
-        "redirect_uri": process.env.FONTYS_REDIRECT_URI || '',
+        "authUrl": process.env.FONTYS_AUTH_URL || '',
+        "clientId": process.env.FONTYS_CLIENT_ID || '',
+        "clientSecret": process.env.FONTYS_CLIENT_SECRET || '',
+        "redirectUri": process.env.FONTYS_REDIRECT_URI || '',
+        "tokenUrl": process.env.FONTYS_TOKEN_URL || '',
     }
 }
 
