@@ -12,8 +12,8 @@ class AuthRouter {
     }
 
     private setupRoutes(): void {
-        this.router.get('/authenticate', this.authController.authUser);
-        this.router.post('/login', this.authController.loginUser);
+        this.router.get('/authenticate', this.authController.authenticate);
+        // this.router.post('/login', this.authController.loginUser);
     }
 
     public getRouter(): Router {
