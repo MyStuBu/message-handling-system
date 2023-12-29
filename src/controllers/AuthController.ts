@@ -2,11 +2,12 @@ import {Request, Response} from 'express';
 import UserService from '../services/UserService';
 import AuthService from '../services/AuthService';
 import axios from "axios";
-import getOAuth2Config from "../configs/OAuth2Config";
+import getOAuth2Config, {OAuth2Object} from "../configs/OAuth2Config";
 
 class AuthController {
     private userService: UserService;
     private authService: AuthService;
+    private readonly config: OAuth2Object
 
     constructor() {
         this.userService = new UserService();
