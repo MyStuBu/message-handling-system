@@ -12,12 +12,14 @@ class AuthController {
     constructor() {
         this.userService = new UserService();
         this.authService = new AuthService();
+        this.config = getOAuth2Config('fhict')
     }
 
     public authenticate = (req: Request, res: Response): void => {
         const {auth_url, client_id, redirect_uri} = getOAuth2Config('fhict')
 
         if (!auth_url || !client_id || !redirect_uri) {
+        if (!this.config.authUrl || !this.config.clientId || !this.config.redirectUri) {
             throw new Error('Missing required environment variables.');
         }
 
@@ -31,6 +33,7 @@ class AuthController {
             const {code} = req.query;
 
             const tokenUrl = 'https://identity.fhict.nl/connect/token';
+            const tokenUrl = this.authService.createTokenUrl(code, this.config);
             const tokenResponse = await axios.post(
                 tokenUrl,
                 new URLSearchParams({
