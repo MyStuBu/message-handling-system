@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import User from '../models/User';
+import {Request, Response} from 'express';
 import UserService from '../services/UserService';
 import AuthService from '../services/AuthService';
+import getOAuth2Config from "../configs/OAuth2Config";
 
 class AuthController {
     private userService: UserService;
@@ -12,12 +12,16 @@ class AuthController {
         this.authService = new AuthService();
     }
 
-    public authUser = async (req: Request, res: Response): Promise<void> => {
-        try {
-            // Add your authentication logic here
-        } catch (error) {
-            console.log(error);
+    public authenticate = (req: Request, res: Response): void => {
+        const {auth_url, client_id, redirect_uri} = getOAuth2Config('fhict')
+
+        if (!auth_url || !client_id || !redirect_uri) {
+            throw new Error('Missing required environment variables.');
         }
+
+        const redirectUrl = this.authService.createRedirectUrl(auth_url, client_id, redirect_uri);
+
+        res.redirect(redirectUrl);
     }
 
     public loginUser = async (req: Request, res: Response): Promise<any> => {
