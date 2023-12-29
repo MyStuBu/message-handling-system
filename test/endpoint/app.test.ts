@@ -1,5 +1,5 @@
 import supertest from 'supertest';
-import StudyBuddyServer from '../../src/app';
+import StudyBuddyServer from '../../src/App';
 
 const studyBuddyServer = new StudyBuddyServer();
 const request = supertest(studyBuddyServer.app);
