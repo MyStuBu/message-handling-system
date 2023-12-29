@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import UserService from '../services/UserService';
 import AuthService from '../services/AuthService';
+import axios from "axios";
 import getOAuth2Config from "../configs/OAuth2Config";
 
 class AuthController {
@@ -24,26 +25,35 @@ class AuthController {
         res.redirect(redirectUrl);
     }
 
-    public loginUser = async (req: Request, res: Response): Promise<any> => {
+    public authenticateCallback = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { username, password } = this.authService.extractUserCredentials(req.body);
-            const user: User | null = await this.userService.findUserInDatabase(username);
+            const {code} = req.query;
 
-            if (!user) {
-                return res.status(401).json({ error: `User with ${username} not found` });
-            }
+            const tokenUrl = 'https://identity.fhict.nl/connect/token';
+            const tokenResponse = await axios.post(
+                tokenUrl,
+                new URLSearchParams({
+                    grant_type: 'authorization_code',
+                    code: code as string,
+                    redirect_uri: 'https://your-app.com/auth/fhict/callback',
+                    client_id: 'yourClientId',
+                    client_secret: 'yourClientSecret',
+                }),
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                }
+            );
 
-            const isValidPassword: boolean = await this.authService.validatePassword(password, user.password);
+            const accessToken = tokenResponse.data.access_token;
 
-            if (!isValidPassword) {
-                return res.status(401).json({ error: 'Invalid password' });
-            }
+            // find or store user in database
 
-            const token: string = this.authService.signJwtToken(user.id);
-            res.json({ token });
+            res.redirect('');
         } catch (error) {
-            console.error('Error in loginUser:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            console.log('Error in handleFHICTAuthorizationCallback:', error);
+            throw error;
         }
     }
 
