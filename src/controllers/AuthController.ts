@@ -2,25 +2,25 @@ import {Request, Response} from 'express';
 import UserService from '../services/UserService';
 import AuthService from '../services/AuthService';
 import axios from "axios";
-import getOAuth2Config, {OAuth2Object} from "../configs/OAuth2Config";
+import getOAuth2Object, {OAuth2Object} from "../configs/OAuth2Config";
 
 class AuthController {
     private userService: UserService;
     private authService: AuthService;
-    private readonly config: OAuth2Object
+    private readonly oAuth2Object: OAuth2Object
 
     constructor() {
         this.userService = new UserService();
         this.authService = new AuthService();
-        this.config = getOAuth2Config('fhict')
+        this.oAuth2Object = getOAuth2Object('fhict')
     }
 
     public initAuthentication = (req: Request, res: Response): void => {
-        if (!this.config.authUrl || !this.config.clientId || !this.config.redirectUri) {
+        if (!this.oAuth2Object.authUrl || !this.oAuth2Object.clientId || !this.oAuth2Object.redirectUri) {
             throw new Error('Missing required environment variables.');
         }
 
-        const redirectUrl = this.authService.createRedirectUrl(this.config);
+        const redirectUrl = this.authService.createRedirectUrl(this.oAuth2Object);
 
         res.redirect(redirectUrl);
     }
@@ -32,11 +32,11 @@ class AuthController {
                 throw new Error('Missing required code retrieved from oauth2 server.');
             }
 
-            if (!this.config.authUrl || !this.config.clientId || !this.config.redirectUri) {
+            if (!this.oAuth2Object.authUrl || !this.oAuth2Object.clientId || !this.oAuth2Object.redirectUri) {
                 throw new Error('Missing required environment variables.');
             }
 
-            const tokenUrl = this.authService.createTokenUrl(code, this.config);
+            const tokenUrl = this.authService.createTokenUrl(code, this.oAuth2Object);
             const tokenResponse = await axios.post(
                 tokenUrl,
                 {
