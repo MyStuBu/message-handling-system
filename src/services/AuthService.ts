@@ -1,24 +1,13 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-
 class AuthService {
-    public extractUserCredentials(body: any): { username: string; password: string } {
-        const { username, password } = body;
-        return { username, password };
-    }
-
-    public async hashUserPassword(password: string): Promise<string> {
-        return await bcrypt.hash(password, 10);
-    }
-
-    public async validatePassword(password: string, hashedPassword: string): Promise<boolean> {
-        return await bcrypt.compare(password, hashedPassword);
-    }
-
-    public signJwtToken(userId: bigint): string {
-        return jwt.sign({ userId: userId }, process.env.SECRET_KEY || '', {
-            expiresIn: '1h',
+    public createRedirectUrl(authorizeUrl: string, client_id: string, redirect_uri: string): string {
+        const queryParams = new URLSearchParams({
+            client_id: client_id, // todo: set clientId correctly
+            scope: 'fhict fhict_personal',
+            redirect_uri: redirect_uri, // todo: set redirect_uri correctly
+            response_type: 'code',
         });
+
+        return `${authorizeUrl}?${queryParams.toString()}`;
     }
 }
 
