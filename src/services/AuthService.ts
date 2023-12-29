@@ -1,13 +1,15 @@
+import {OAuth2Object} from "../configs/OAuth2Config";
+
 class AuthService {
-    public createRedirectUrl(authorizeUrl: string, client_id: string, redirect_uri: string): string {
+    public createRedirectUrl(config: OAuth2Object): string {
         const queryParams = new URLSearchParams({
-            client_id: client_id, // todo: set clientId correctly
+            client_id: config.clientId, // todo: set clientId correctly
             scope: 'fhict fhict_personal',
-            redirect_uri: redirect_uri, // todo: set redirect_uri correctly
+            redirect_uri: config.redirectUri, // todo: set redirect_uri correctly
             response_type: 'code',
         });
 
-        return `${authorizeUrl}?${queryParams.toString()}`;
+        return `${config.authUrl}?${queryParams.toString()}`;
     }
 }
 
