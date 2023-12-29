@@ -11,6 +11,18 @@ class AuthService {
 
         return `${config.authUrl}?${queryParams.toString()}`;
     }
+
+    public createTokenUrl(code: any, config: OAuth2Object): string {
+        const queryParams = new URLSearchParams({
+            grant_type: 'authorization_code',
+            code: code as string,
+            redirect_uri: config.redirectUri,
+            client_id: config.clientId,
+            client_secret: config.clientSecret,
+        });
+
+        return `${config.tokenUrl}?${queryParams.toString()}`;
+    }
 }
 
 export default AuthService;

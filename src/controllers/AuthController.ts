@@ -25,21 +25,20 @@ class AuthController {
         res.redirect(redirectUrl);
     }
 
-    public authenticateCallback = async (req: Request, res: Response): Promise<void> => {
+    public authentication = async (req: Request, res: Response): Promise<void> => {
         try {
             const {code} = req.query;
+            if (!code) {
+                throw new Error('Missing required code retrieved from oauth2 server.');
+            }
 
-            const tokenUrl = 'https://identity.fhict.nl/connect/token';
+            if (!this.config.authUrl || !this.config.clientId || !this.config.redirectUri) {
+                throw new Error('Missing required environment variables.');
+            }
+
             const tokenUrl = this.authService.createTokenUrl(code, this.config);
             const tokenResponse = await axios.post(
                 tokenUrl,
-                new URLSearchParams({
-                    grant_type: 'authorization_code',
-                    code: code as string,
-                    redirect_uri: 'https://your-app.com/auth/fhict/callback',
-                    client_id: 'yourClientId',
-                    client_secret: 'yourClientSecret',
-                }),
                 {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
