@@ -1,80 +1,29 @@
-import { getMockReq } from '@jest-mock/express';
 import AuthService from '../../src/services/AuthService';
+import getOAuth2Config from "../../src/configs/OAuth2Config";
 
 const authService: AuthService = new AuthService();
 
+jest.mock('process', () => ({
+    env: {
+        FONTYS_CLIENT_ID: 'mock_client_id',
+        FONTYS_REDIRECT_URI: 'mock_redirect_uri',
+        FONTYS_AUTH_URL: 'https://identity.fhict.nl/connect/authorize'
+    },
+}));
+
 describe('AuthService', () => {
-    describe('extractUserCredentials', () => {
-        it('should extract user credentials from a valid request', () => {
-            // Arrange
-            const validRequest = getMockReq({
-                body: {
-                    username: 'testUser',
-                    password: 'testPassword',
-                },
-            });
+    describe('createRedirectUrl', () => {
+        it('should create a correct redirectUrl', () => {
+            // arrange
+            const {auth_url, client_id, redirect_uri} = getOAuth2Config('fhict')
 
-            // Act
-            const result = authService.extractUserCredentials(validRequest.body);
+            // act
+            const redirectUrl = authService.createRedirectUrl(auth_url, client_id, redirect_uri);
 
-            // Assert
-            expect(result).toEqual({
-                username: 'testUser',
-                password: 'testPassword',
-            });
-        });
+            // assert
+            const mockUrl = 'https://identity.fhict.nl/connect/authorize?client_id=mock_client_id&scope=fhict+fhict_personal&redirect_uri=mock_redirect_uri&response_type=code';
+            expect(mockUrl).toEqual(redirectUrl);
+        })
+    })
 
-        it('should return an object with undefined for missing credentials', () => {
-            // Arrange
-            const requestWithoutCredentials = getMockReq({ body: {} });
-
-            // Act
-            const result = authService.extractUserCredentials(requestWithoutCredentials.body);
-
-            // Assert
-            expect(result).toEqual({
-                username: undefined,
-                password: undefined,
-            });
-        });
-    });
-
-    describe('hashUserPassword', () => {
-        it('should hash a password correctly', async () => {
-            // Arrange
-            const mockPassword = 'mockedPassword';
-
-            // Act
-            const result = await authService.hashUserPassword(mockPassword);
-
-            // Assert
-            expect(result).not.toBe(mockPassword);
-        });
-    });
-
-    describe('validatePassword', () => {
-        it('should validate a correct password', async () => {
-            // Arrange
-            const mockPassword = 'testPassword';
-            const mockStoredHashedPassword = await authService.hashUserPassword(mockPassword);
-
-            // Act
-            const result = await authService.validatePassword(mockPassword, mockStoredHashedPassword);
-
-            // Assert
-            expect(result).toBe(true);
-        });
-
-        it('should not validate an incorrect password', async () => {
-            // Arrange
-            const mockPassword = 'testPassword';
-            const mockStoredHashedPassword = 'incorrectMockedHashedPassword';
-
-            // Act
-            const result = await authService.validatePassword(mockPassword, mockStoredHashedPassword);
-
-            // Assert
-            expect(result).toBe(false);
-        });
-    });
 });
