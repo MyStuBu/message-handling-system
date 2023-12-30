@@ -12,6 +12,7 @@ class AuthController {
     constructor() {
         this.userService = new UserService();
         this.authService = new AuthService();
+        // todo: make key of oauth2 injectable (or use passport and utilize its strategy patterns)
         this.oAuth2Object = getOAuth2Object('fhict')
     }
 
@@ -25,11 +26,12 @@ class AuthController {
         res.redirect(redirectUrl);
     }
 
-    public authentication = async (req: Request, res: Response): Promise<void> => {
+    public retrieveAuthenticationToken = async (req: Request, res: Response): Promise<void> => {
         try {
-            const {code} = req.query;
+            const { code } = req.query;
+
             if (!code) {
-                throw new Error('Missing required code retrieved from oauth2 server.');
+                throw new Error('Missing required code retrieved from OAuth2 server.');
             }
 
             if (!this.oAuth2Object.authUrl || !this.oAuth2Object.clientId || !this.oAuth2Object.redirectUri) {
@@ -37,48 +39,20 @@ class AuthController {
             }
 
             const tokenUrl = this.authService.createTokenUrl(code, this.oAuth2Object);
-            const tokenResponse = await axios.post(
-                tokenUrl,
-                {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                }
-            );
+            const requestData = { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } };
 
+            const tokenResponse = await axios.post(tokenUrl, requestData);
             const accessToken = tokenResponse.data.access_token;
 
-            // find or store user in database
+            // Find or store user in the database (TODO: Implement this logic)
 
-            res.redirect('');
+            res.redirect(''); // Add the correct URL for redirection
+
         } catch (error) {
-            console.log('Error in handleFHICTAuthorizationCallback:', error);
+            console.log('Error in authenticationToken:', error);
             throw error;
         }
-    }
-
-    // public loginUser = async (req: Request, res: Response): Promise<any> => {
-    //     try {
-    //         const { username, password } = this.authService.extractUserCredentials(req.body);
-    //         const user: User | null = await this.userService.findUserInDatabase(username);
-    //
-    //         if (!user) {
-    //             return res.status(401).json({ error: `User with ${username} not found` });
-    //         }
-    //
-    //         const isValidPassword: boolean = await this.authService.validatePassword(password, user.password);
-    //
-    //         if (!isValidPassword) {
-    //             return res.status(401).json({ error: 'Invalid password' });
-    //         }
-    //
-    //         const token: string = this.authService.signJwtToken(user.id);
-    //         res.json({ token });
-    //     } catch (error) {
-    //         console.error('Error in loginUser:', error);
-    //         res.status(500).json({ error: 'Internal Server Error' });
-    //     }
-    // }
+    };
 }
 
 export default AuthController;
