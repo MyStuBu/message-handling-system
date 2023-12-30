@@ -15,12 +15,12 @@ jest.mock('process', () => ({
 
 describe('AuthService', () => {
     describe('createRedirectUrl', () => {
-        it('should create a correct redirectUrl', () => {
+        it('should create a correct fhict redirect url', () => {
             // arrange
-            const config = getOAuth2Config('fhict')
+            const oAuth2Object = getOAuth2Config('fhict')
 
             // act
-            const redirectUrl = authService.createRedirectUrl(config);
+            const redirectUrl = authService.createRedirectUrl(oAuth2Object);
 
             // assert
             const mockUrl = 'https://identity.fhict.nl/connect/authorize?client_id=mock_client_id&scope=fhict+fhict_personal&redirect_uri=mock_redirect_uri&response_type=code';
