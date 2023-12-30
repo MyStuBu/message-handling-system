@@ -5,7 +5,7 @@ class AuthService {
         const queryParams = new URLSearchParams({
             client_id: oAuth2Object.clientId, // todo: set clientId correctly
             scope: 'fhict fhict_personal',
-            redirect_uri: oAuth2Object.redirectUri, // todo: set redirect_uri correctly
+            redirect_uri: oAuth2Object.redirectUri, // todo: set redirectUri correctly
             response_type: 'code',
         });
 
