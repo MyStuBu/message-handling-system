@@ -16,9 +16,9 @@ class AuthService {
         const queryParams = new URLSearchParams({
             grant_type: 'authorization_code',
             code: code as string,
-            redirect_uri: oAuth2Object.redirectUri,
-            client_id: oAuth2Object.clientId,
-            client_secret: oAuth2Object.clientSecret,
+            redirect_uri: oAuth2Object.redirectUri, // todo: set redirectUri correctly
+            client_id: oAuth2Object.clientId, // todo: set clientId correctly
+            client_secret: oAuth2Object.clientSecret, // todo: set clientSecret correctly
         });
 
         return `${oAuth2Object.tokenUrl}?${queryParams.toString()}`;
