@@ -23,12 +23,12 @@ const configurations: OAuth2Config = {
     }
 }
 
-const getOAuth2Config = (env: string): OAuth2Config[string] => {
-    if (!(env in configurations)) {
-        throw new Error(`Environment "${env}" not found in configurations.`);
+const getOAuth2Config = (key: string): OAuth2Config[string] => {
+    if (!(key in configurations)) {
+        throw new Error(`Environment "${key}" not found in configurations.`);
     }
 
-    return configurations[env];
+    return configurations[key];
 }
 
 export default getOAuth2Config;
