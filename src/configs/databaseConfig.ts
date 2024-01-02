@@ -1,6 +1,6 @@
 import path from "path";
 
-interface Configurations {
+interface DatabaseConfig {
     [key: string]: {
         username: string;
         password: string;
@@ -11,7 +11,7 @@ interface Configurations {
     };
 }
 
-const configurations: Configurations = {
+const configurations: DatabaseConfig = {
     "development": {
         "username": process.env.DB_USER || '',
         "password": process.env.DB_PASSWORD || '',
@@ -38,7 +38,7 @@ const configurations: Configurations = {
     }
 };
 
-const getDatabaseConfig = (env: string): Configurations[string] => {
+const getDatabaseConfig = (env: string): DatabaseConfig[string] => {
     if (!(env in configurations)) {
         throw new Error(`Environment "${env}" not found in configurations.`);
     }

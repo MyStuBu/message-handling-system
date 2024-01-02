@@ -2,8 +2,7 @@ import {DataTypes, Model, Sequelize} from "sequelize";
 
 class User extends Model {
     declare id: bigint
-    declare username: string
-    declare password: string
+    declare user_reference: string
 
     static initModel(sequelize: Sequelize): void {
         User.init(
@@ -13,29 +12,10 @@ class User extends Model {
                     autoIncrement: true,
                     primaryKey: true,
                 },
-                username: {
+                user_reference: {
                     type: DataTypes.STRING,
                     allowNull: false,
-                    validate: {
-                        notNull: {
-                            msg: "Username cannot be null",
-                        },
-                        notEmpty: {
-                            msg: "Username cannot be empty",
-                        },
-                    },
-                },
-                password: {
-                    type: new DataTypes.STRING(128),
-                    allowNull: false,
-                    validate: {
-                        notNull: {
-                            msg: "Password cannot be null",
-                        },
-                        notEmpty: {
-                            msg: "Password cannot be empty",
-                        },
-                    },
+                    unique: true,
                 },
             },
             {

@@ -1,46 +1,72 @@
 import {Request, Response} from 'express';
-import User from '../models/User';
-import userService from "../services/userService";
-import authService from "../services/authService";
+import UserService from '../services/UserService';
+import AuthService from '../services/authentication/AuthService';
+import axios from "axios";
+import getOAuth2Object, {OAuth2Object} from "../configs/OAuth2Config";
+import FhictOAuth2Strategy from "../services/authentication/strategy/FhictOAuth2Strategy";
 
-const registerUser = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const {username, password} = authService.extractUserCredentials(req.body);
-        if (!username || !password) {
-            res.status(400).json({error: 'invalid input'})
-        }
-        const hashPassword: string = await authService.hashUserPassword(password);
-        const user: User = await userService.createUserInDatabase(username, hashPassword)
-        res.status(201).json(user);
-    } catch (error) {
-        console.error('Error in registerUser:', error);
-        res.status(500).json({error: 'Internal Server Error'});
+class AuthController {
+    private userService: UserService;
+    private authService: AuthService;
+    private readonly oAuth2Object: OAuth2Object
+
+    constructor() {
+        // todo: make oauth2 object and strategies injection dynamic when more options become available
+        this.userService = new UserService();
+        this.authService = new AuthService(new FhictOAuth2Strategy());
+        this.oAuth2Object = getOAuth2Object('fhict')
     }
-}
 
-const loginUser = async (req: Request, res: Response): Promise<any> => {
-    try {
-        const {username, password} = authService.extractUserCredentials(req.body);
-        const user: User | null = await userService.findUserInDatabase(username)
-        if (!user) {
-            return res.status(401).json({error: `User with ${username} not found`})
+    // public authenticationCallback(req: Request, res: Response): void {
+    //     passport.authenticate('fhict', async (err, user) => {
+    //
+    //     })
+    // }
+
+    public initAuthentication = (req: Request, res: Response): void => {
+        if (!this.oAuth2Object.authUrl || !this.oAuth2Object.clientId || !this.oAuth2Object.redirectUri) {
+            throw new Error('Missing required environment variables.');
         }
 
-        const isValidPassword: boolean = await authService.validatePassword(password, user.password);
-        if (!isValidPassword) {
-            return res.status(401).json({error: 'Invalid password'})
-        }
+        const redirectUrl = this.authService.createRedirectUrl(this.oAuth2Object);
 
-        const token: string = authService.signJwtToken(user.id);
-        res.json({token})
-    } catch (error) {
-        console.error('Error in loginUser:', error);
-        res.status(500).json({error: 'Internal Server Error'});
+        res.redirect(redirectUrl);
     }
-}
+
+    public authenticationCallback = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { code } = req.query;
+
+            if (!code) {
+                throw new Error('Missing required code retrieved from OAuth2 server.');
+            }
+
+            if (!this.oAuth2Object.authUrl || !this.oAuth2Object.clientId || !this.oAuth2Object.redirectUri) {
+                throw new Error('Missing required environment variables.');
+            }
+
+            const tokenUrl = this.authService.createTokenUrl(code, this.oAuth2Object);
+            const requestData = { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } };
+
+            const tokenResponse = await axios.post(tokenUrl, requestData);
+            const accessToken = tokenResponse.data.access_token;
+
+            const userInfoResponse = await axios.get(this.oAuth2Object.userInfoUrl, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            // User userInfo its sub value to find or store user in the database (TODO: Implement this logic)
 
 
-export default {
-    registerUser,
-    loginUser
+            res.redirect(''); // Add the correct URL for redirection
+
+        } catch (error) {
+            console.log('Error in authenticationToken:', error);
+            throw error;
+        }
+    };
 }
+
+export default AuthController;
