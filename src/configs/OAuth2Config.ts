@@ -6,6 +6,7 @@ export interface OAuth2Object {
     clientSecret: string;
     redirectUri: string;
     tokenUrl: string;
+    userInfoUrl: string;
 }
 
 interface OAuth2Config {
@@ -20,6 +21,7 @@ const configurations: OAuth2Config = {
         "clientSecret": process.env.FONTYS_CLIENT_SECRET || '',
         "redirectUri": process.env.FONTYS_REDIRECT_URI || '',
         "tokenUrl": process.env.FONTYS_TOKEN_URL || '',
+        "userInfoUrl": process.env.FONTYS_USER_INFO_URL || '',
     }
 }
 

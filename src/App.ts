@@ -10,7 +10,7 @@ import DatabaseManager from './database/DatabaseManager';
 import { Environment } from './enums/Environment'
 import UserRouter from './routers/UserRouter';
 import ConversationRouter from './routers/ConversationRouter';
-import AuthRouter from './routers/AuthRouter';
+// import AuthRouter from './routers/AuthRouter';
 import * as process from 'process';
 
 dotenv.config();
@@ -34,7 +34,7 @@ export default class StudyBuddyServer {
     }
 
     private configureRoutes(): void {
-        this.app.use('/auth', new AuthRouter().getRouter());
+        // this.app.use('/auth', new AuthRouter().getRouter());
         this.app.use('/user', new UserRouter().getRouter());
         this.app.use('/conversation', new ConversationRouter().getRouter());
         this.app.get('/', (req, res): void => {

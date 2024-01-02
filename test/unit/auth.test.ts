@@ -1,4 +1,4 @@
-import AuthService from '../../src/services/AuthService';
+import AuthService from '../../src/services/authentication/AuthService';
 import getOAuth2Config from "../../src/configs/OAuth2Config";
 import {getMockReq} from '@jest-mock/express'
 import * as querystring from "querystring";

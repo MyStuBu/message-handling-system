@@ -12,8 +12,10 @@ class AuthRouter {
     }
 
     private setupRoutes(): void {
-        this.router.get('/authenticate', this.authController.initAuthentication);
-        this.router.post('/retrieve-token', this.authController.retrieveAuthenticationToken);
+        // this.router.get('/authenticate', this.authController.initAuthentication);
+        // this.router.post('/retrieve-token', this.authController.authenticationCallback);
+        // this.router.get('/authenticate', passport.authenticate('fhict'));
+        // this.router.post('/callback', passport.authenticate('fhict'), this.authController.authenticationCallback)
     }
 
     public getRouter(): Router {

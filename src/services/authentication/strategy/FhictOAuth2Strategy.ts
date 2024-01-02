@@ -1,6 +1,7 @@
-import {OAuth2Object} from "../configs/OAuth2Config";
+import {OAuth2Object} from "../../../configs/OAuth2Config";
+import {OAuth2Strategy} from "../interface/OAuth2Strategy";
 
-class AuthService {
+class FhictOAuth2Strategy implements OAuth2Strategy {
     public createRedirectUrl(oAuth2Object: OAuth2Object): string {
         const queryParams = new URLSearchParams({
             client_id: oAuth2Object.clientId, // todo: set clientId correctly
@@ -25,4 +26,4 @@ class AuthService {
     }
 }
 
-export default AuthService;
+export default FhictOAuth2Strategy;
