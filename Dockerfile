@@ -33,4 +33,4 @@ USER node
 
 EXPOSE 80
 
-CMD ["node", "app/app.js"]
+CMD ["node", "app/App.js"]
