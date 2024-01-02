@@ -12,10 +12,10 @@ RUN npx tsc -p ./tsconfig.json
 
 # Stage 3: Production stage
 FROM node:20.10.0-alpine3.18 AS production
-WORKDIR /usr/src/app
+WORKDIR /usr/src/
 
 # Create the sqlite directory with correct permissions
-RUN mkdir /usr/src/app/sqlite && chown -R node:node /usr/src/app/sqlite
+RUN mkdir /usr/src/sqlite && chown -R node:node /usr/src/sqlite
 
 # Copy transpiled code from the production-transpile stage
 COPY --from=production-transpile /usr/src/dist/ ./app/
