@@ -2,9 +2,10 @@ import AuthService from '../../src/services/authentication/AuthService';
 import getOAuth2Config from "../../src/configs/OAuth2Config";
 import {getMockReq} from '@jest-mock/express'
 import * as querystring from "querystring";
+import FhictOAuth2Strategy from "../../src/services/authentication/strategy/FhictOAuth2Strategy";
 
 
-const authService: AuthService = new AuthService();
+const authService: AuthService = new AuthService(new FhictOAuth2Strategy());
 
 jest.mock('process', () => ({
     env: {
