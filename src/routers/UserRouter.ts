@@ -1,13 +1,26 @@
-import express from "express";
+import express, { Router } from 'express';
+import UserController from '../controllers/UserController';
 
-const UserRouter = express.Router();
-import UserController from '../controllers/UserController'
-import authMiddleware from "../middleware/AuthMiddleware";
+class UserRouter {
+    private readonly router: Router;
+    private userController: UserController;
 
-// Routes
-UserRouter.get('/', UserController.getAllUsers);
-UserRouter.get('/:id', authMiddleware, UserController.getUserById);
-UserRouter.put('/:id', authMiddleware, UserController.updateUserById);
-UserRouter.delete('/:id', authMiddleware, UserController.deleteUserById);
+    constructor() {
+        this.router = express.Router();
+        this.userController = new UserController();
+        this.setupRoutes();
+    }
+
+    private setupRoutes(): void {
+        this.router.get('/', this.userController.getAllUsers);
+        this.router.get('/:id', this.userController.getUserById);
+        this.router.put('/:id', this.userController.updateUserById);
+        this.router.delete('/:id', this.userController.deleteUserById);
+    }
+
+    public getRouter(): Router {
+        return this.router;
+    }
+}
 
 export default UserRouter;

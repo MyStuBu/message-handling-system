@@ -5,12 +5,12 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
-import getDatabaseConfig from './database/config'
+import getDatabaseConfig from './configs/databaseConfig'
 import DatabaseManager from './database/DatabaseManager';
 import { Environment } from './enums/Environment'
 import UserRouter from './routers/UserRouter';
 import ConversationRouter from './routers/ConversationRouter';
-import AuthRouter from './routers/AuthRouter';
+// import AuthRouter from './routers/AuthRouter';
 import * as process from 'process';
 
 dotenv.config();
@@ -34,9 +34,9 @@ export default class StudyBuddyServer {
     }
 
     private configureRoutes(): void {
-        this.app.use('/auth', AuthRouter);
-        this.app.use('/user', UserRouter);
-        this.app.use('/conversation', ConversationRouter);
+        // this.app.use('/auth', new AuthRouter().getRouter());
+        this.app.use('/user', new UserRouter().getRouter());
+        this.app.use('/conversation', new ConversationRouter().getRouter());
         this.app.get('/', (req, res): void => {
             res.json({message: 'Hello from the Study Buddy backend.'});
         });

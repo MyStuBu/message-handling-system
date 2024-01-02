@@ -1,5 +1,7 @@
 import {getMockReq} from '@jest-mock/express'
-import conversationService from "../../src/services/conversationService";
+import ConversationService from "../../src/services/ConversationService";
+
+const conversationService: ConversationService = new ConversationService();
 
 jest.mock('process', () => ({
     env: {
