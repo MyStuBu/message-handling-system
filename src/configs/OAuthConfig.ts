@@ -1,6 +1,6 @@
 import process from "process";
 
-export interface OAuth2Object {
+export interface OAuthObject {
     authUrl: string;
     clientId: string;
     clientSecret: string;
@@ -9,12 +9,12 @@ export interface OAuth2Object {
     userInfoUrl: string;
 }
 
-interface OAuth2Config {
+interface OAuthConfig {
     [key: string]:
-        OAuth2Object
+        OAuthObject
 }
 
-const configurations: OAuth2Config = {
+const configurations: OAuthConfig = {
     "fhict": {
         "authUrl": process.env.FONTYS_AUTH_URL || '',
         "clientId": process.env.FONTYS_CLIENT_ID || '',
@@ -25,7 +25,7 @@ const configurations: OAuth2Config = {
     }
 }
 
-const getOAuth2Config = (key: string): OAuth2Config[string] => {
+const getOAuthConfig = (key: string): OAuthConfig[string] => {
     if (!(key in configurations)) {
         throw new Error(`Environment "${key}" not found in configurations.`);
     }
@@ -33,4 +33,4 @@ const getOAuth2Config = (key: string): OAuth2Config[string] => {
     return configurations[key];
 }
 
-export default getOAuth2Config;
+export default getOAuthConfig;

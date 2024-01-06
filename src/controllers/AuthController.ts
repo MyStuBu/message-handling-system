@@ -2,19 +2,19 @@ import {Request, Response} from 'express';
 import UserService from '../services/UserService';
 import AuthService from '../services/authentication/AuthService';
 import axios from "axios";
-import getOAuth2Object, {OAuth2Object} from "../configs/OAuth2Config";
-import FhictOAuth2Strategy from "../services/authentication/strategy/FhictOAuth2Strategy";
+import getOAuthObject, {OAuthObject} from "../configs/OAuthConfig";
+import FhictOAuthStrategy from "../services/authentication/strategy/FhictOAuthStrategy";
 
 class AuthController {
     private userService: UserService;
     private authService: AuthService;
-    private readonly oAuth2Object: OAuth2Object
+    private readonly oAuthObject: OAuthObject
 
     constructor() {
-        // todo: make oauth2 object and strategies injection dynamic when more options become available
+        // todo: make oauth object and strategies injection dynamic when more options become available
         this.userService = new UserService();
-        this.authService = new AuthService(new FhictOAuth2Strategy());
-        this.oAuth2Object = getOAuth2Object('fhict')
+        this.authService = new AuthService(new FhictOAuthStrategy());
+        this.oAuthObject = getOAuthObject('fhict')
     }
 
     // public authenticationCallback(req: Request, res: Response): void {
@@ -24,11 +24,11 @@ class AuthController {
     // }
 
     public initAuthentication = (req: Request, res: Response): void => {
-        if (!this.oAuth2Object.authUrl || !this.oAuth2Object.clientId || !this.oAuth2Object.redirectUri) {
+        if (!this.oAuthObject.authUrl || !this.oAuthObject.clientId || !this.oAuthObject.redirectUri) {
             throw new Error('Missing required environment variables.');
         }
 
-        const redirectUrl = this.authService.createRedirectUrl(this.oAuth2Object);
+        const redirectUrl = this.authService.createRedirectUrl(this.oAuthObject);
 
         res.redirect(redirectUrl);
     }
@@ -41,17 +41,17 @@ class AuthController {
                 throw new Error('Missing required code retrieved from OAuth2 server.');
             }
 
-            if (!this.oAuth2Object.authUrl || !this.oAuth2Object.clientId || !this.oAuth2Object.redirectUri) {
+            if (!this.oAuthObject.authUrl || !this.oAuthObject.clientId || !this.oAuthObject.redirectUri) {
                 throw new Error('Missing required environment variables.');
             }
 
-            const tokenUrl = this.authService.createTokenUrl(code, this.oAuth2Object);
+            const tokenUrl = this.authService.createTokenUrl(code, this.oAuthObject);
             const requestData = { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } };
 
             const tokenResponse = await axios.post(tokenUrl, requestData);
             const accessToken = tokenResponse.data.access_token;
 
-            const userInfoResponse = await axios.get(this.oAuth2Object.userInfoUrl, {
+            const userInfoResponse = await axios.get(this.oAuthObject.userInfoUrl, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },

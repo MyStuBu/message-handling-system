@@ -1,19 +1,19 @@
-import {OAuth2Object} from "../../configs/OAuth2Config";
-import {OAuth2Strategy} from "./interface/OAuth2Strategy";
+import {OAuthObject} from "../../configs/OAuthConfig";
+import {OAuthStrategy} from "./interface/OAuthStrategy";
 
 class AuthService {
-    private oAuth2Strategy: OAuth2Strategy;
+    private oAuthStrategy: OAuthStrategy;
 
-    constructor(oauth2Strategy: OAuth2Strategy) {
-        this.oAuth2Strategy = oauth2Strategy;
+    constructor(oauthStrategy: OAuthStrategy) {
+        this.oAuthStrategy = oauthStrategy;
     }
 
-    public createRedirectUrl(oAuth2Object: OAuth2Object): string {
-        return this.oAuth2Strategy.createRedirectUrl(oAuth2Object);
+    public createRedirectUrl(oAuthObject: OAuthObject): string {
+        return this.oAuthStrategy.createRedirectUrl(oAuthObject);
     }
 
-    public createTokenUrl(code: any, oAuth2Object: OAuth2Object): string {
-        return this.oAuth2Strategy.createTokenUrl(code, oAuth2Object);
+    public createTokenUrl(code: any, oAuthObject: OAuthObject): string {
+        return this.oAuthStrategy.createTokenUrl(code, oAuthObject);
     }
 }
 

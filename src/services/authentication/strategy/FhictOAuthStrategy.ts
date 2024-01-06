@@ -1,8 +1,8 @@
-import {OAuth2Object} from "../../../configs/OAuth2Config";
-import {OAuth2Strategy} from "../interface/OAuth2Strategy";
+import {OAuthObject} from "../../../configs/OAuthConfig";
+import {OAuthStrategy} from "../interface/OAuthStrategy";
 
-class FhictOAuth2Strategy implements OAuth2Strategy {
-    public createRedirectUrl(oAuth2Object: OAuth2Object): string {
+class FhictOAuthStrategy implements OAuthStrategy {
+    public createRedirectUrl(oAuth2Object: OAuthObject): string {
         const queryParams = new URLSearchParams({
             client_id: oAuth2Object.clientId, // todo: set clientId correctly
             scope: 'fhict fhict_personal',
@@ -13,7 +13,7 @@ class FhictOAuth2Strategy implements OAuth2Strategy {
         return `${oAuth2Object.authUrl}?${queryParams.toString()}`;
     }
 
-    public createTokenUrl(code: any, oAuth2Object: OAuth2Object): string {
+    public createTokenUrl(code: any, oAuth2Object: OAuthObject): string {
         const queryParams = new URLSearchParams({
             grant_type: 'authorization_code',
             code: code as string,
@@ -26,4 +26,4 @@ class FhictOAuth2Strategy implements OAuth2Strategy {
     }
 }
 
-export default FhictOAuth2Strategy;
+export default FhictOAuthStrategy;

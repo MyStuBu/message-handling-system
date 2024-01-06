@@ -1,11 +1,11 @@
 import AuthService from '../../src/services/authentication/AuthService';
-import getOAuth2Config from "../../src/configs/OAuth2Config";
+import getOAuthConfig from "../../src/configs/OAuthConfig";
 import {getMockReq} from '@jest-mock/express'
 import * as querystring from "querystring";
-import FhictOAuth2Strategy from "../../src/services/authentication/strategy/FhictOAuth2Strategy";
+import FhictOAuthStrategy from "../../src/services/authentication/strategy/FhictOAuthStrategy";
 
 
-const authService: AuthService = new AuthService(new FhictOAuth2Strategy());
+const authService: AuthService = new AuthService(new FhictOAuthStrategy());
 
 jest.mock('process', () => ({
     env: {
@@ -21,7 +21,7 @@ describe('AuthService', () => {
     describe('createRedirectUrl', () => {
         it('should create a correct fhict redirect url', () => {
             // arrange
-            const oAuth2Object = getOAuth2Config('fhict')
+            const oAuth2Object = getOAuthConfig('fhict')
 
             // act
             const redirectUrl = authService.createRedirectUrl(oAuth2Object);
@@ -37,7 +37,7 @@ describe('AuthService', () => {
             // arrange
             const request = getMockReq({query: querystring.parse('mock_code')})
             const {code} = request.query
-            const oAuth2Object = getOAuth2Config('fhict')
+            const oAuth2Object = getOAuthConfig('fhict')
 
             // act
             const tokenUrl = authService.createTokenUrl(code, oAuth2Object)
