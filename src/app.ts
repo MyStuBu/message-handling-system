@@ -12,6 +12,7 @@ import UserRouter from './routers/UserRouter';
 import ConversationRouter from './routers/ConversationRouter';
 import AuthRouter from './routers/AuthRouter';
 import * as process from 'process';
+import newsService from "./services/newsService";
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ export default class StudyBuddyServer {
 
     private configureRoutes(): void {
         this.app.use('/auth', AuthRouter);
+        // this.app.use('/news', newsService);
         this.app.use('/user', UserRouter);
         this.app.use('/conversation', ConversationRouter);
         this.app.get('/', (req, res): void => {
