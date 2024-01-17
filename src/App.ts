@@ -40,7 +40,11 @@ export default class StudyBuddyServer {
     }
 
     private configureMiddlewares(): void {
-        this.app.use(cors({ credentials: true }));
+        this.app.use(cors({
+            origin: 'http://localhost:3000',
+            methods: ['GET'],
+            credentials: true,
+        }));
         this.app.use(compression());
         this.app.use(cookieParser());
         this.app.use(bodyParser.json());
