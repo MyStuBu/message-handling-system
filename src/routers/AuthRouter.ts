@@ -1,4 +1,6 @@
 import express, { Router } from 'express';
+import {PassportStatic} from 'passport';
+import GoogleAuthentication from '../middleware/GoogleAuthentication';
 import AuthController from '../controllers/AuthController';
 
 class AuthRouter {

@@ -1,9 +1,6 @@
 import {Request, Response} from 'express';
-import UserService from '../services/UserService';
-import AuthService from '../services/authentication/AuthService';
-import axios from "axios";
-import getOAuthObject, {OAuthObject} from "../configs/OAuthConfig";
-import FhictOAuthStrategy from "../services/authentication/strategy/FhictOAuthStrategy";
+import jwt from 'jsonwebtoken';
+
 
 class AuthController {
     private userService: UserService;

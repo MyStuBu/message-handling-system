@@ -14,11 +14,11 @@ import {Environment} from './enums/Environment'
 import UserRouter from './routers/UserRouter';
 import ConversationRouter from './routers/ConversationRouter';
 import * as process from 'process';
-import session from "express-session";
-import passport from "passport";
-import AuthRouter from "./routers/AuthRouter";
-import GoogleAuth from "./services/authentication/GoogleAuth";
-import {googleConfig} from "./configs/GoogleConfig";
+import session from 'express-session';
+import passport from 'passport';
+import AuthRouter from './routers/AuthRouter';
+import GoogleAuth from './services/authentication/GoogleAuth';
+import {googleConfig} from './configs/GoogleConfig';
 
 export default class StudyBuddyServer {
     public readonly app: Express;
