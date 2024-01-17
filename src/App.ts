@@ -54,7 +54,7 @@ export default class StudyBuddyServer {
     }
 
     private configureRoutes(): void {
-        // this.app.use('/auth', new AuthRouter().getRouter());
+        this.app.use('/auth', new AuthRouter(passport).getRouter());
         this.app.use('/user', new UserRouter().getRouter());
         this.app.use('/conversation', new ConversationRouter().getRouter());
         this.app.get('/', (req, res): void => {
