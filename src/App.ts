@@ -29,6 +29,10 @@ export default class StudyBuddyServer {
         this.app = express();
         this.server = http.createServer(this.app);
         this.environment = process.env.NODE_ENV as Environment || Environment.Development
+
+        this.configurePassport();
+        this.configureMiddlewares();
+        this.configureRoutes();
     }
 
     private configureMiddlewares(): void {
@@ -66,9 +70,6 @@ export default class StudyBuddyServer {
     }
 
     public async start(): Promise<void> {
-        this.configureMiddlewares();
-        this.configureRoutes();
-
         try {
             if (process.env.NODE_ENV !== 'test') {
                 await this.initializeDatabase();
