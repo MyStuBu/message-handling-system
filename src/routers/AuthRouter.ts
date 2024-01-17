@@ -5,19 +5,19 @@ import AuthController from '../controllers/AuthController';
 
 class AuthRouter {
     private readonly router: Router;
-    private authController: AuthController;
+    private googleAuthentication: GoogleAuthentication
+    private authController: AuthController
 
-    constructor() {
+    constructor(passport: PassportStatic) {
         this.router = express.Router();
-        this.authController = new AuthController();
+        this.googleAuthentication = new GoogleAuthentication(passport);
+        this.authController = new AuthController()
         this.setupRoutes();
     }
 
     private setupRoutes(): void {
-        // this.router.get('/authenticate', this.authController.initAuthentication);
-        // this.router.post('/retrieve-token', this.authController.authenticationCallback);
-        // this.router.get('/authenticate', passport.authenticate('fhict'));
-        // this.router.post('/callback', passport.authenticate('fhict'), this.authController.authenticationCallback)
+        this.router.get('/google', this.googleAuthentication.authenticateGoogle);
+        this.router.get('/google/callback', this.googleAuthentication.googleCallback, this.authController.authenticationSuccessful);
     }
 
     public getRouter(): Router {
