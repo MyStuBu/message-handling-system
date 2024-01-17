@@ -35,11 +35,18 @@ export default class StudyBuddyServer {
         this.configureRoutes();
     }
 
+    private configurePassport(): void {
+        new GoogleAuth(googleConfig, passport);
+    }
+
     private configureMiddlewares(): void {
         this.app.use(cors({ credentials: true }));
         this.app.use(compression());
         this.app.use(cookieParser());
         this.app.use(bodyParser.json());
+        this.app.use(session({secret: process.env.SESSION_SECRET || ''}));
+        this.app.use(passport.initialize());
+        this.app.use(passport.session());
     }
 
     private configureRoutes(): void {
