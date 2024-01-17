@@ -1,19 +1,24 @@
 import dotenv from 'dotenv';
-import express, { Express } from 'express';
+import express, {Express} from 'express';
+
+dotenv.config();
+
 import http from 'http';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
-import getDatabaseConfig from './configs/databaseConfig'
+import getDatabaseConfig from './configs/databaseConfig';
 import DatabaseManager from './database/DatabaseManager';
-import { Environment } from './enums/Environment'
+import {Environment} from './enums/Environment'
 import UserRouter from './routers/UserRouter';
 import ConversationRouter from './routers/ConversationRouter';
-// import AuthRouter from './routers/AuthRouter';
 import * as process from 'process';
-
-dotenv.config();
+import session from "express-session";
+import passport from "passport";
+import AuthRouter from "./routers/AuthRouter";
+import GoogleAuth from "./services/authentication/GoogleAuth";
+import {googleConfig} from "./configs/GoogleConfig";
 
 export default class StudyBuddyServer {
     public readonly app: Express;
