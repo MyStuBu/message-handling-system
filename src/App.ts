@@ -41,7 +41,7 @@ export default class StudyBuddyServer {
 
     private configureMiddlewares(): void {
         this.app.use(cors({
-            origin: 'http://localhost:3000',
+            origin: process.env.STUDY_BUDDY_SPA_URL,
             methods: ['GET'],
             credentials: true,
         }));
