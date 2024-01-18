@@ -5,8 +5,8 @@ interface AuthRequest extends Request {
     userId?: number;
 }
 
-class AuthMiddleware {
-    public middleware: express.RequestHandler = (req: AuthRequest, res: Response, next: NextFunction) => {
+class Authorize {
+    public authorize: express.RequestHandler = (req: AuthRequest, res: Response, next: NextFunction) => {
         const token: string | undefined = req.headers.authorization?.split(' ')[1];
 
         if (!token) {
@@ -23,4 +23,4 @@ class AuthMiddleware {
     };
 }
 
-export default AuthMiddleware;
+export default Authorize;

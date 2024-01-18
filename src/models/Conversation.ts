@@ -1,4 +1,4 @@
-import {DataTypes, Model, Sequelize} from "sequelize";
+import {DataTypes, Model, Sequelize} from 'sequelize';
 
 class Conversation extends Model {
     declare id: bigint

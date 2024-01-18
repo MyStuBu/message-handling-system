@@ -1,7 +1,7 @@
-import {Dialect, Sequelize} from "sequelize";
-import User from "../models/User";
-import Conversation from "../models/Conversation";
-import DatabaseAssociation from "../models/Association"
+import {Dialect, Sequelize} from 'sequelize';
+import User from '../models/User';
+import Conversation from '../models/Conversation';
+import DatabaseAssociation from '../models/Association'
 
 interface DatabaseConfig {
     username: string;
@@ -57,7 +57,7 @@ export default class DatabaseManager {
 
     private validateDialect(): void {
         if (!this.config.dialect) {
-            throw new Error("Incorrect DB_DIALECT in .env");
+            throw new Error('Incorrect DB_DIALECT in .env');
         }
     }
 }

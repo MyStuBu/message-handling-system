@@ -1,18 +1,24 @@
 import dotenv from 'dotenv';
-import express, { Express } from 'express';
+import express, {Express} from 'express';
+
+dotenv.config();
+
 import http from 'http';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
-import getDatabaseConfig from './configs/databaseConfig'
+import getDatabaseConfig from './configs/databaseConfig';
 import DatabaseManager from './database/DatabaseManager';
-import { Environment } from './enums/Environment'
+import {Environment} from './enums/Environment'
 import UserRouter from './routers/UserRouter';
 import ConversationRouter from './routers/ConversationRouter';
 import * as process from 'process';
-
-dotenv.config();
+import session from 'express-session';
+import passport from 'passport';
+import AuthRouter from './routers/AuthRouter';
+import GoogleAuth from './services/authentication/GoogleAuth';
+import {googleConfig} from './configs/GoogleConfig';
 
 export default class StudyBuddyServer {
     public readonly app: Express;
@@ -23,16 +29,32 @@ export default class StudyBuddyServer {
         this.app = express();
         this.server = http.createServer(this.app);
         this.environment = process.env.NODE_ENV as Environment || Environment.Development
+
+        this.configurePassport();
+        this.configureMiddlewares();
+        this.configureRoutes();
+    }
+
+    private configurePassport(): void {
+        new GoogleAuth(googleConfig, passport);
     }
 
     private configureMiddlewares(): void {
-        this.app.use(cors({ credentials: true }));
+        this.app.use(cors({
+            origin: process.env.STUDY_BUDDY_SPA_URL,
+            methods: ['GET'],
+            credentials: true,
+        }));
         this.app.use(compression());
         this.app.use(cookieParser());
         this.app.use(bodyParser.json());
+        this.app.use(session({secret: process.env.SESSION_SECRET || ''}));
+        this.app.use(passport.initialize());
+        this.app.use(passport.session());
     }
 
     private configureRoutes(): void {
+        this.app.use('/auth', new AuthRouter(passport).getRouter());
         this.app.use('/user', new UserRouter().getRouter());
         this.app.use('/conversation', new ConversationRouter().getRouter());
         this.app.get('/', (req, res): void => {
@@ -59,9 +81,6 @@ export default class StudyBuddyServer {
     }
 
     public async start(): Promise<void> {
-        this.configureMiddlewares();
-        this.configureRoutes();
-
         try {
             if (process.env.NODE_ENV !== 'test') {
                 await this.initializeDatabase();

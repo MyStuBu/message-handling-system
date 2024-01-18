@@ -1,4 +1,4 @@
-import {DataTypes, Model, Sequelize} from "sequelize";
+import {DataTypes, Model, Sequelize} from 'sequelize';
 
 class User extends Model {
     declare id: bigint
