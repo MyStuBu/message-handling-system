@@ -15,7 +15,7 @@ class GoogleAuthentication {
     googleCallback = (req: Request, res: Response, next: NextFunction) => {
         this.passport.authenticate('google', {
             successRedirect: process.env.STUDY_BUDDY_SPA_URL,
-            failureRedirect: '/auth/failure',
+            failureRedirect: '/auth/failure'
         })(req, res, next);
     }
 }
