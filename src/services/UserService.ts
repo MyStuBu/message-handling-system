@@ -1,6 +1,9 @@
 import User from '../models/User';
 
 class UserService {
+    public findOrCreateUser() {
+
+    }
     public async createUserInDatabase(username: string, hashedPassword: string): Promise<User> {
         return await User.create({
             username: username,

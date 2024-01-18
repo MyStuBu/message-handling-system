@@ -1,4 +1,4 @@
-import path from 'path';
+import path from "path";
 
 interface DatabaseConfig {
     [key: string]: {
@@ -12,29 +12,29 @@ interface DatabaseConfig {
 }
 
 const configurations: DatabaseConfig = {
-    'development': {
-        'username': process.env.DB_USER || '',
-        'password': process.env.DB_PASSWORD || '',
-        'database': process.env.DB_NAME || '',
-        'host': process.env.DB_HOST || '',
-        'dialect': process.env.DB_DIALECT || 'sqlite',
-        'storage': path.join(__dirname, '../../sqlite/database.sqlite')
+    "development": {
+        "username": process.env.DB_USER || '',
+        "password": process.env.DB_PASSWORD || '',
+        "database": process.env.DB_NAME || '',
+        "host": process.env.DB_HOST || '',
+        "dialect": process.env.DB_DIALECT || 'sqlite',
+        "storage": path.join(__dirname, "../../sqlite/database.sqlite")
     },
-    'test': {
-        'username': process.env.TEST_DB_USER || '',
-        'password': process.env.TEST_DB_PASSWORD || '',
-        'database': process.env.TEST_DB_NAME || '',
-        'host': process.env.TEST_DB_HOST || '',
-        'dialect': process.env.TEST_DB_DIALECT || 'sqlite',
-        'storage': ':memory:'
+    "test": {
+        "username": process.env.TEST_DB_USER || "",
+        "password": process.env.TEST_DB_PASSWORD || "",
+        "database": process.env.TEST_DB_NAME || "",
+        "host": process.env.TEST_DB_HOST || "",
+        "dialect": process.env.TEST_DB_DIALECT || "sqlite",
+        "storage": ":memory:"
     },
-    'production': {
-        'username': process.env.DB_USER || '',
-        'password': process.env.DB_PASSWORD || '',
-        'database': process.env.DB_NAME || '',
-        'host': process.env.DB_HOST || '',
-        'dialect': process.env.DB_DIALECT || 'sqlite',
-        'storage':  path.join(__dirname, '../../sqlite/database.sqlite')
+    "production": {
+        "username": process.env.DB_USER || '',
+        "password": process.env.DB_PASSWORD || '',
+        "database": process.env.DB_NAME || '',
+        "host": process.env.DB_HOST || '',
+        "dialect": process.env.DB_DIALECT || 'sqlite',
+        "storage":  path.join(__dirname, "../../sqlite/database.sqlite")
     }
 };
 

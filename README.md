@@ -1,6 +1,6 @@
 # message-handling-system
 
-Follow these steps to set up and run the Message Handling System on your local environment using Docker cli:
+Follow these steps to set up and run the Message Handling System on your local environment using Docker Desktop:
 
 ### 1. Download the Repository </br></br>
 

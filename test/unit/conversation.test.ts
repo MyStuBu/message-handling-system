@@ -1,5 +1,5 @@
 import {getMockReq} from '@jest-mock/express'
-import ConversationService from '../../src/services/ConversationService';
+import ConversationService from "../../src/services/ConversationService";
 
 const conversationService: ConversationService = new ConversationService();
 
@@ -53,15 +53,15 @@ describe('conversationService', () => {
 
             // Assert
             expect(result).toEqual({
-                method: 'post',
-                url: 'https://api.runpod.ai/v2/mock_pod_id/run',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer mock_api_key',
-                },
-                maxBodyLength: Infinity,
-                data: '{"input":{"question":"This is the question"}}'
-            }
+                    method: "post",
+                    url: "https://api.runpod.ai/v2/mock_pod_id/run",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer mock_api_key",
+                    },
+                    maxBodyLength: Infinity,
+                    data: "{\"input\":{\"question\":\"This is the question\"}}"
+                }
             );
         });
     });
@@ -80,7 +80,7 @@ describe('conversationService', () => {
                 maxBodyLength: Infinity,
                 url: `https://api.runpod.ai/v2/mock_pod_id/status/${jobId}`,
                 headers: {
-                    'Authorization': 'Bearer mock_api_key',
+                    'Authorization': `Bearer mock_api_key`,
                 },
             });
         });
